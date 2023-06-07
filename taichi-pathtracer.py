@@ -47,32 +47,6 @@ def lorentz_boost(beta):
                       [lambda_0j[1], lambda_ij[1, 0], lambda_ij[1, 1], lambda_ij[1, 2]],
                       [lambda_0j[2], lambda_ij[2, 0], lambda_ij[2, 1], lambda_ij[2, 2]]])
 
-'''''''''
-@ti.func
-def SPD(color, f):
-    cr = color[0]
-    cg = color[1]
-    cb = color[2]
-    c = 0.0
-    if f < FRC:
-        c = 0.2 * cr
-    else:
-        if(f >= FRC) and (f < FR):
-            c = 0.8 * cr * (f - FRC) / (FR - FRC) + 0.2 * cr
-        else:
-            if (f >= FR) and (f < FG):
-                c = cg + (cr - cg) * ((FR / f) * FG - FR) / (FG - FR)
-            else:
-                if (f >= FG) and (f < FB):
-                    c = cb + (cg - cb) * ((FG / f) * FB - FG) / (FB - FG)
-                else:
-                    if (f >= FB) and (f < FBC):
-                        c = 0.8 * cb * (FBC - f) / (FBC - FB) + 0.2 * cb
-                    else:
-                        c = 0.2 * cb
-    return c
-'''''''''
-
 wavelength_min = 380
 wavelength_max = 720
 hue_min = -180
@@ -212,7 +186,7 @@ class Sphere:
 
         solns = quadratic_eqn_roots(a, b, c)
 
-        root = tm.vec3([-1.0, -1.0, -1.0])
+        root = -1.0
         is_hit = False
         front_face = False
         hit_point =  tm.vec3([0.0, 0.0, 0.0])
@@ -335,38 +309,38 @@ ti.pi = 3.14159
 eps = 1e-4
 height = 800
 width = 800
-focal_length = 1400.0
+focal_length = 1200.0
 
 ORIGIN = tm.vec4([0, 0, 0, 0])
 DEFAULT_OBJ_COLOR = tm.vec3([1, 1, 1])
 DEFAULT_BG_COLOR = tm.vec3([0.0, 0.0, 0.0])
 
 # Rendering parameters
-samples_per_pixel = 1200
+samples_per_pixel = 1300
 max_depth = 10
 
 image_matrix = ti.Vector.field(3, ti.f32, (width, height))
 
 # beta = v/c
-beta = tm.vec3([0, 0, -0.4])
+beta = tm.vec3([0, 0.5, 0.1])
 offset = tm.vec4([0, 0, 0, 10])
 
 scene = Hittable_list()
-# scene.add(MovingObject(Sphere(center=tm.vec3(20,20,50), radius = 20, material = 0, color=DEFAULT_OBJ_COLOR), beta, offset))
+#scene.add(MovingObject(Sphere(center=tm.vec3([0.7,0,-5.5]), radius = 5, material = 0, color=tm.vec3([25, 25, 25])), beta, offset))
 # Light source
 scene.add(MovingObject(Sphere(center=tm.vec3([0, 5.4, -1]), radius=30.0, material=0, color=ti.Vector([22.0, 22.0, 22.0])), beta, offset))
 # Ground
-scene.add(MovingObject(Sphere(center=ti.Vector([0, -100.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
+scene.add(MovingObject(Sphere(center=ti.Vector([0, -120.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
 # ceiling
 scene.add(MovingObject(Sphere(center=ti.Vector([0, 152.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
 # back wall
-scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, 101]), radius=100.0, material=1, color=ti.Vector([0.5, 0.5, 0.8])), beta, offset))
+scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, 111]), radius=110.0, material=1, color=ti.Vector([0.5, 0.5, 0.8])), beta, offset))
 # front wall
 #scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, -208]), radius=100.0, material=1, color=ti.Vector([0.6, 0.0, 0.0])), beta, offset))
 # right wall
 scene.add(MovingObject(Sphere(center=ti.Vector([-101.5, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.6, 0.0, 0.0])), beta, offset))
 # left wall
-scene.add(MovingObject(Sphere(center=ti.Vector([101.5, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.0, 0.6, 0.0])), beta, offset))
+scene.add(MovingObject(Sphere(center=ti.Vector([101, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.0, 0.6, 0.0])), beta, offset))
 # Diffuse ball
 scene.add(MovingObject(Sphere(center=ti.Vector([0, -0.2, -1.5]), radius=0.3, material=1, color=ti.Vector([0.8, 0.3, 0.3])), beta, offset))
 # Metal ball
@@ -411,6 +385,8 @@ def ray_color(ray, time):
             D = ti.sqrt(1 - beta.norm_sqr()) / (1 + cos_theta)
             #print('D', D)
             if material == 0:
+                if count == 1:
+                    color = Doppler(color, D)
                 color_buffer = color * brightness
                 break
             else:
