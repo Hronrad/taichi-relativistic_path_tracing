@@ -68,12 +68,16 @@ $$\nu=\frac{1}{T}=\frac{\nu_0\sqrt{1-(v/c)^2}}{1-(v/c)\cos\theta}$$
 $$\begin{align} r_0&=(0,0,0)\\r_1&=(x_i,y_i,-f)\end{align}$$
 
 描述一条光线。我们如何将这种光线追踪改为考虑相对论性质呢？很简单，只需要把原本的欧式三维空间换为 Minkowski 空间就可以了。此时，光线将由以下信息表示：
-$$\begin{align}r_0&=(0,0,0,ct_0)\\r_1 &= (x_i,y_i,-f,ct_1)\\ct_1&=ct_0+\sqrt{x_i^2+y_i^2+f^2})\end{align}$$
+
+$$\begin{align}r_0&=(0,0,0,ct_0) \\ r_1 &= (x_i,y_i,-f,ct_1) \\ ct_1&=ct_0+\sqrt{x_i^2+y_i^2+f^2} \end{align}$$
+
 这是摄像机参考系的光线。我们需要与场景中的物体求交，因此需要再转换为场景坐标系的光线，此处用到洛伦兹变换矩阵：
+
 $$\begin{align}
 r_{0}^{\prime}&=\left(0,0, \gamma \beta t_{0}, \gamma c t_{0}\right) \\
 r_{1}^{\prime}&=\left(x_{i}, y_{i},-\gamma f+\gamma \beta c t_{1}, \gamma c t_{1}-\gamma \beta f\right) 
 \end{align}$$
+
 此处默认场景整体和摄像机有一个固定的相对速度。
 
 ## 参考文献
