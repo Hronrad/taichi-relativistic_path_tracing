@@ -1,5 +1,3 @@
-from scene_config import *
-from scene_config import width, height, samples_per_pixel, max_depth, image_matrix, scene, beta, offset
 import numpy as np
 import taichi as ti
 import taichi.math as tm
@@ -306,50 +304,50 @@ class MovingObject:
     offset: tm.vec4
 #-----------------------------------------------------------------------------------
 # 设置场景
-# ti.pi = 3.14159
-# eps = 1e-4
-# height = 800
-# width = 800
-# focal_length = 1200.0
+ti.pi = 3.14159
+eps = 1e-4
+height = 800
+width = 800
+focal_length = 1200.0
 
-# ORIGIN = tm.vec4([0, 0, 0, 0])
-# DEFAULT_OBJ_COLOR = tm.vec3([1, 1, 1])
-# DEFAULT_BG_COLOR = tm.vec3([0.0, 0.0, 0.0])
+ORIGIN = tm.vec4([0, 0, 0, 0])
+DEFAULT_OBJ_COLOR = tm.vec3([1, 1, 1])
+DEFAULT_BG_COLOR = tm.vec3([0.0, 0.0, 0.0])
 
-# # Rendering parameters
-# samples_per_pixel = 1300
-# max_depth = 10
+# Rendering parameters
+samples_per_pixel = 1300
+max_depth = 10
 
-# image_matrix = ti.Vector.field(3, ti.f32, (width, height))
+image_matrix = ti.Vector.field(3, ti.f32, (width, height))
 
-# # beta = v/c
-# beta = tm.vec3([0, 0.5, 0.1])
-# offset = tm.vec4([0, 0, 0, 10])
+# beta = v/c
+beta = tm.vec3([0, 0.5, 0.1])
+offset = tm.vec4([0, 0, 0, 10])
 
-# scene = Hittable_list()
-# #scene.add(MovingObject(Sphere(center=tm.vec3([0.7,0,-5.5]), radius = 5, material = 0, color=tm.vec3([25, 25, 25])), beta, offset))
-# # Light source
-# scene.add(MovingObject(Sphere(center=tm.vec3([0, 5.4, -1]), radius=30.0, material=0, color=ti.Vector([22.0, 22.0, 22.0])), beta, offset))
-# # Ground
-# scene.add(MovingObject(Sphere(center=ti.Vector([0, -120.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
-# # ceiling
-# scene.add(MovingObject(Sphere(center=ti.Vector([0, 152.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
-# # back wall
-# scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, 111]), radius=110.0, material=1, color=ti.Vector([0.5, 0.5, 0.8])), beta, offset))
-# # front wall
-# #scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, -208]), radius=100.0, material=1, color=ti.Vector([0.6, 0.0, 0.0])), beta, offset))
-# # right wall
-# scene.add(MovingObject(Sphere(center=ti.Vector([-101.5, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.6, 0.0, 0.0])), beta, offset))
-# # left wall
-# scene.add(MovingObject(Sphere(center=ti.Vector([101, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.0, 0.6, 0.0])), beta, offset))
-# # Diffuse ball
-# scene.add(MovingObject(Sphere(center=ti.Vector([0, -0.2, -1.5]), radius=0.3, material=1, color=ti.Vector([0.8, 0.3, 0.3])), beta, offset))
-# # Metal ball
-# scene.add(MovingObject(Sphere(center=ti.Vector([-0.8, 0.2, -1]), radius=0.7, material=2, color=ti.Vector([0.6, 0.8, 0.8])), beta, offset))
-# # Glass ball
-# scene.add(MovingObject(Sphere(center=ti.Vector([0.7, 0, -0.5]), radius=0.5, material=3, color=ti.Vector([1.0, 1.0, 1.0])), beta, offset))
-# # Metal ball-2
-# scene.add(MovingObject(Sphere(center=ti.Vector([0.6, -0.3, -2.0]), radius=0.2, material=4, color=ti.Vector([0.8, 0.6, 0.2])), beta, offset))
+scene = Hittable_list()
+#scene.add(MovingObject(Sphere(center=tm.vec3([0.7,0,-5.5]), radius = 5, material = 0, color=tm.vec3([25, 25, 25])), beta, offset))
+# Light source
+scene.add(MovingObject(Sphere(center=tm.vec3([0, 5.4, -1]), radius=30.0, material=0, color=ti.Vector([22.0, 22.0, 22.0])), beta, offset))
+# Ground
+scene.add(MovingObject(Sphere(center=ti.Vector([0, -120.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
+# ceiling
+scene.add(MovingObject(Sphere(center=ti.Vector([0, 152.5, -1]), radius=100.0, material=1, color=ti.Vector([0.8, 0.8, 0.8])), beta, offset))
+# back wall
+scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, 111]), radius=110.0, material=1, color=ti.Vector([0.5, 0.5, 0.8])), beta, offset))
+# front wall
+#scene.add(MovingObject(Sphere(center=ti.Vector([0, 1, -208]), radius=100.0, material=1, color=ti.Vector([0.6, 0.0, 0.0])), beta, offset))
+# right wall
+scene.add(MovingObject(Sphere(center=ti.Vector([-101.5, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.6, 0.0, 0.0])), beta, offset))
+# left wall
+scene.add(MovingObject(Sphere(center=ti.Vector([101, 0, -1]), radius=100.0, material=1, color=ti.Vector([0.0, 0.6, 0.0])), beta, offset))
+# Diffuse ball
+scene.add(MovingObject(Sphere(center=ti.Vector([0, -0.2, -1.5]), radius=0.3, material=1, color=ti.Vector([0.8, 0.3, 0.3])), beta, offset))
+# Metal ball
+scene.add(MovingObject(Sphere(center=ti.Vector([-0.8, 0.2, -1]), radius=0.7, material=2, color=ti.Vector([0.6, 0.8, 0.8])), beta, offset))
+# Glass ball
+scene.add(MovingObject(Sphere(center=ti.Vector([0.7, 0, -0.5]), radius=0.5, material=3, color=ti.Vector([1.0, 1.0, 1.0])), beta, offset))
+# Metal ball-2
+scene.add(MovingObject(Sphere(center=ti.Vector([0.6, -0.3, -2.0]), radius=0.2, material=4, color=ti.Vector([0.8, 0.6, 0.2])), beta, offset))
 
 #-----------------------------------------------------------------------------------
 @ti.func
