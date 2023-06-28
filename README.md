@@ -11,12 +11,10 @@
 
 ![z轴相对运动](images/example_0.gif)
 <center>相对运动（未添加多普勒效应）</center>
-
 <div>
   <img src="images/example_0_1.gif" style="display: inline-block; width: 49%;">
   <img src="images/example_0_2.gif" style="display: inline-block; width: 49%;">
 </div>
-
 <center>z轴相对速度 beta = 0.4 时分别产生红移和蓝移 </center>
 
 <div>
@@ -63,13 +61,21 @@ $$\nu=\frac{1}{T}=\frac{\nu_0\sqrt{1-(v/c)^2}}{1-(v/c)\cos\theta}$$
 下面是一个简化的反向光线追踪例子，用最简单的小孔成像模型加以说明(Howard 1995)。
 ![小孔成像模型](images/pinhole.png)
 <center>小孔成像模型(Howard 1995)</center>
+
 任意一条光线由位于原点的小孔和像平面上一点决定，f为焦距，则由
 
-$$\begin{align} r_0&=(0,0,0)\\r_1&=(x_i,y_i,-f)\end{align}$$
+$$\begin{align}
+r_{0}&=(0,0,0) \\
+r_{1}&=(x_i,y_i,-f)
+\end{align}$$
 
 描述一条光线。我们如何将这种光线追踪改为考虑相对论性质呢？很简单，只需要把原本的欧式三维空间换为 Minkowski 空间就可以了。此时，光线将由以下信息表示：
 
-$$\begin{align}r_0&=(0,0,0,ct_0) \\ r_1 &= (x_i,y_i,-f,ct_1) \\ ct_1&=ct_0+\sqrt{x_i^2+y_i^2+f^2} \end{align}$$
+$$\begin{align}
+r_0&=(0,0,0,ct_0) \\
+r_1 &= (x_i,y_i,-f,ct_1)\\
+ct_1&=ct_0+\sqrt{x_i^2+y_i^2+f^2} 
+\end{align}$$
 
 这是摄像机参考系的光线。我们需要与场景中的物体求交，因此需要再转换为场景坐标系的光线，此处用到洛伦兹变换矩阵：
 
